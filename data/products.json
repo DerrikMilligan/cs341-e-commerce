@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Mithril Armor",
+    "image": "https://vignette.wikia.nocookie.net/venturian-battle-headquarters/images/4/46/Mithril.jpg/revision/latest?cb=20171213164534",
+    "price": 999.99,
+    "description": "Armor that is light as a feather and inpenetrable.",
+    "id": "0dbb0744-6c96-4ab0-9210-00063dc40e12"
+  },
+  {
+    "name": "Sting",
+    "image": "http://img2.wikia.nocookie.net/__cb20140527085852/lotr/images/5/5d/Sting_with_scabbard.jpg",
+    "price": 99.99,
+    "description": "A small blade, only slightly larger than a dagger, that glows blue in the presence of orcs or goblins.",
+    "id": "d6c3b8ea-6254-427d-bf60-1275f5cecfb8"
+  },
+  {
+    "name": "No Image",
+    "image": "https://cdn3.iconfinder.com/data/icons/file-and-folder-fill-icons-set/144/File_Search-512.png",
+    "price": 5,
+    "description": "This item has no image URL and thusly has a palceholder.",
+    "id": "58dbe4cd-ac13-4f99-8a48-c2a97d70ac5e"
+  }
+]
