@@ -1,9 +1,12 @@
-<div class="card bg-light">
+<div class="card bg-light p-2">
 	<!-- <div class="card-header"><%= name %></div> -->
-	<img class="card-img-top" style="max-height: 300px;" src="<%= image || '' %>">
+	<img class="m-2" src="<%= image || '' %>">
 	<div class="card-body">
 		<h5 class="card-title"><%= name %> - $<%= price %></h5>
 		<p class="card-text"><%= description %></p>
-		<a href="#" class="btn btn-primary">Add to Cart</a>
+		<div class="float-end">
+			<a href="/products/<%= id %>" class="btn btn-info">More Info</a>
+			<a href="#" class="btn btn-primary">Add to Cart</a>
+		</div>
 	</div>
 </div>

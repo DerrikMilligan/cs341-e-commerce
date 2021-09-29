@@ -1,7 +1,7 @@
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
   <div
     id="liveToast"
-    class="toast <%= (locals.show === undefined || show === true ? 'show' : '') %>"
+    class="toast <%= (locals.success !== undefined ? 'show' : '') %>"
     role="alert"
     aria-live="assertive"
     aria-atomic="true"
@@ -9,9 +9,20 @@
     <div class="toast-header text-white
       <%= (locals.success === undefined || success === true ? 'bg-success' : 'bg-danger') %>
     ">
-      <strong class="me-auto"><%= title %></strong>
+      <strong class="me-auto">
+        <%=
+          // If we have a title use that otherwise use the success to determine the title
+          locals.title !== undefined
+            ? title
+            : (
+              locals.success === undefined || success === true
+                ? 'Success'
+                : 'Error'
+            )
+        %>
+      </strong>
       <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
-    <div class="toast-body"><%= message %></div>
+    <div class="toast-body"><%= locals.message !== undefined ? message : '' %></div>
   </div>
 </div>

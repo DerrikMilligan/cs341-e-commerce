@@ -6,6 +6,11 @@ module.exports = {
 		res.render('../views/pages/products.ejs', { products: products });
 	},
 
+	getProductDetails: (req, res, next) => {
+		const product = Products.getProduct(req.params.uuid);
+		res.render('../views/pages/product_details.ejs', { product: product });
+	},
+
 	getAddProduct: (req, res, next) => {
 		res.render('../views/pages/add_product.ejs');
 	},
@@ -30,6 +35,12 @@ module.exports = {
 			response.previousData = postProduct;
 		}
 
+		if (response.success && (!'product_extended_description' in postProduct || postProduct.product_extended_description.trim().length <= 0)) {
+			response.success      = false;
+			response.message      = 'An extended product description is required!';
+			response.previousData = postProduct;
+		}
+
 		if (response.success && (!'product_price' in postProduct || postProduct.product_price.trim().length <= 0)) {
 			response.success      = false;
 			response.message      = 'A product price is required!';
@@ -37,9 +48,10 @@ module.exports = {
 		}
 
 		const product = {
-			name       : postProduct.product_name,
-			description: postProduct.product_description,
-			price      : parseFloat(postProduct.product_price.trim()),
+			name                : postProduct.product_name,
+			description         : postProduct.product_description,
+			extended_description: postProduct.product_extended_description,
+			price               : parseFloat(postProduct.product_price.trim()),
 		};
 
 		if (postProduct.product_image_url !== undefined && postProduct.product_image_url.trim().length > 0) {

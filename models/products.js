@@ -5,10 +5,11 @@ module.exports = {
 	_productFilePath: __dirname + '/../data/products.json',
 
 	_productDefaults: {
-		name       : 'Generic Name',
-		image      : 'https://cdn3.iconfinder.com/data/icons/file-and-folder-fill-icons-set/144/File_Search-512.png',
-		price      : 10.00,
-		description: 'I\'m a generic product description!',
+		name                : 'Generic Name',
+		image               : 'https://cdn3.iconfinder.com/data/icons/file-and-folder-fill-icons-set/144/File_Search-512.png',
+		price               : 10.00,
+		description         : 'I\'m a generic product description!',
+		extended_description: 'I\'m a less generic product description!',
 	},
 
 	_readProductFile: function() {
@@ -39,6 +40,12 @@ module.exports = {
 	getAllProducts: function() {
 		// Return what we have from the file
 		return this._readProductFile();
+	},
+
+	// Return a product with a given id
+	getProduct: function(uuid) {
+		// Return what we have from the file
+		return this._readProductFile().find((product) => product.id === uuid);
 	},
 
 	addProduct: function(product) {

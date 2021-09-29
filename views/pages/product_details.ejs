@@ -1,0 +1,26 @@
+<%- include('../partials/header.ejs') %>
+
+<%- include('../components/toast.ejs', locals) %>
+
+<div class="container">
+	<div class="card bg-light">
+		<div class="card-header">Product Details</div>
+		<div class="card-body">
+			<h5 class="card-title"><%= product.name %></h5>
+			<p class="card-text">
+				<img class="my-2" style="max-width: 300px;" src="<%= product.image %>">
+				<div class="row p-2">
+					<%= product.description %>
+				</div>
+				<div class="row p-2">
+					<%= product.extended_description %>
+				</div>
+				<div class="float-end">
+					<a href="#" class="btn btn-primary">Add to Cart</a>
+				</div>
+			</p>
+		</div>
+	</div>
+</div>
+
+<%- include('../partials/footer.ejs') %>
