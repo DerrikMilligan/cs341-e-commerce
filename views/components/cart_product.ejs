@@ -1,0 +1,18 @@
+<div class="card bg-light p-2">
+	<!-- <div class="card-header"><%= product.name %></div> -->
+	<img class="m-2" src="<%= product.image || '' %>">
+	<div class="card-body">
+		<h5 class="card-title"><%= product.name %> (x<%= quantity %>) - $<%= product.price %></h5>
+		<p class="card-text"><%= product.description %></p>
+		<div>
+			<div>
+				<a href="/products/<%= product._id %>" class="btn btn-success">More Info</a>
+				<a href="/cart/remove/<%= product._id %>" class="btn btn-danger">Remove</a>
+			</div>
+			<div>
+				<a href="/cart/sub/<%= product._id %>" class="btn btn-primary">Decrease Quantity</a>
+				<a href="/cart/add/<%= product._id %>" class="btn btn-primary">Increase Quantity</a>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,24 @@
+<%- include('../partials/header.ejs') %>
+
+<div class="container cart products">
+	<div class="row">
+		<h1>Cart</h1>
+	</div>
+	<div class="row">
+		<% if (cart.items.length <= 0) { %>
+			<h3>Empty...</h3>
+		<% } %>
+		<% cart.items.forEach((cartItem, index) => { %>
+			<div class="col-11 col-md-4">
+				<%- include('../components/cart_product.ejs', cartItem) %>
+			</div>
+
+			<% if ((index + 1) % 3 === 0) { %>
+				</div>
+				<div class="row">
+			<% } %>
+		<% }) %>
+	</div>
+</div>
+
+<%- include('../partials/footer.ejs') %>

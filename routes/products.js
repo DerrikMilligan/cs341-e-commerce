@@ -1,10 +1,16 @@
-const express = require('express');
+import express from 'express';
+
+import { ProductController } from '../controllers/index.js';
+import { checkSignIn, userIsAdmin } from './users.js';
+
 const router = express.Router();
-const ProductController = require('../controllers/products');
 
-router.get('/', ProductController.getShopPage);
-router.get('/addProduct', ProductController.getAddProduct);
-router.post('/addProduct', ProductController.postAddProduct);
-router.get('/:uuid', ProductController.getProductDetails);
+router.get('/', checkSignIn, ProductController.getShopPage);
+router.get('/addProduct', checkSignIn, ProductController.getAddProduct);
+router.post('/addProduct', checkSignIn, ProductController.postAddProduct);
+router.get('/:uuid', checkSignIn, ProductController.getProductDetails);
+router.get('/:uuid/edit', checkSignIn, ProductController.editProductDetails);
+router.get('/:uuid/delete', checkSignIn, ProductController.deleteProduct);
 
-module.exports = router;
+export default router;
+

@@ -16,7 +16,10 @@
 					<%= product.extended_description %>
 				</div>
 				<div class="float-end">
-					<a href="#" class="btn btn-primary">Add to Cart</a>
+					<% if (locals.session.user.is_admin === true) { %>
+						<a href="/products/<%= product._id %>/edit" class="btn btn-warning">Edit Product</a>
+					<% } %>
+					<a href="/cart/add/<%= product._id %>" class="btn btn-primary">Add to Cart</a>
 				</div>
 			</p>
 		</div>
