@@ -1,76 +1,96 @@
 <%- include('../partials/header.ejs') %>
 
 <div class="container">
-	<div class="card bg-light">
-		<div class="card-header">Add/Edit New Product</div>
-		<div class="card-body">
-			<h5 class="card-title">Product Information</h5>
-			<p class="card-text">
-				<form method="POST" action="/products/addProduct">
-					<input type="hidden" name="_id" value="<%= ((locals.previousData !== undefined && previousData._id !== undefined) ? previousData._id : '') %>" />
-					<div class="mb-3">
-						<label for="name" class="form-label">Name: *</label>
-						<input
-							name="name"
-							id="name"
-							class="form-control"
-							type="text"
-							placeholder="Item Name"
-							value="<%= ((locals.previousData !== undefined && previousData.name !== undefined) ? previousData.name.trim() : '') %>"
-						/>
-					</div>
-					<div class="mb-3">
-						<label for="description" class="form-label">Description: *</label>
-						<textarea
-							name="description"
-							id="description"
-							class="form-control"
-							rows="3"
-							placeholder="Sweet product description"
-						><%= ((locals.previousData !== undefined && previousData.description !== undefined) ? previousData.description.trim() : '') %></textarea>
-					</div>
-					<div class="mb-3">
-						<label for="extended_description" class="form-label">Extended Description: *</label>
-						<textarea
-							name="extended_description"
-							id="extended_description"
-							class="form-control"
-							rows="3"
-							placeholder="Sweet, slightly more detailed, product description"
-						><%= ((locals.previousData !== undefined && previousData.extended_description !== undefined) ? previousData.extended_description.trim() : '') %></textarea>
-					</div>
-					<div class="mb-3">
-						<label for="price" class="form-label">Price: *</label>
-						<div class="input-group">
-							<span class="input-group-text">$</span>
-							<input
-								name="price"
-								id="price"
-								class="form-control"
-								type="number"
-								placeholder="100"
-								value="<%= ((locals.previousData !== undefined && previousData.price !== undefined) ? previousData.price.toString().trim() : '') %>"
-							/>
-						</div>
-					</div>
-					<div class="mb-3">
-						<label for="image" class="form-label">Image</label>
-						<input
-							name="image"
-							id="image"
-							class="form-control"
-							type="text"
-							placeholder="http://example.com/image.png"
-							value="<%= ((locals.previousData !== undefined && previousData.image !== undefined) ? previousData.image.trim() : '') %>"
-						/>
-					</div>
-
-					<button type="submit" class="btn btn-success">Submit Product</button>
-					<% if (locals.previousData !== undefined && previousData._id !== undefined && locals.session.user.is_admin === true) { %>
-						<a href="/products/<%= previousData._id %>/delete" class="btn btn-danger">Delete Product</a>
+	<div class="row d-flex justify-content-center">
+		<div class="col-6">
+			<div class="card bg-light">
+				<div class="card-header">
+					<% if (locals.previousData !== undefined && previousData._id !== undefined) { %>
+					Update Product
+					<% } else { %>
+					Add New Product
 					<% } %>
-				</form>
-			</p>
+				</div>
+				<div class="card-body">
+					<h5 class="card-title">Product Information</h5>
+					<p class="card-text">
+						<form method="POST" action="/products/addProduct">
+							<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+							<input type="hidden" name="_id" value="<%= ((locals.previousData !== undefined && previousData._id !== undefined) ? previousData._id : '') %>" />
+							<div class="mb-3">
+								<label for="name" class="form-label">Name: *</label>
+								<input
+									name="name"
+									id="name"
+									class="form-control"
+									type="text"
+									placeholder="Item Name"
+									value="<%= ((locals.previousData !== undefined && previousData.name !== undefined) ? previousData.name.trim() : '') %>"
+								/>
+							</div>
+							<div class="mb-3">
+								<label for="description" class="form-label">Description: *</label>
+								<textarea
+									name="description"
+									id="description"
+									class="form-control"
+									rows="3"
+									placeholder="Sweet product description"
+								><%= ((locals.previousData !== undefined && previousData.description !== undefined) ? previousData.description.trim() : '') %></textarea>
+							</div>
+							<div class="mb-3">
+								<label for="stock" class="form-label">Stock: *</label>
+								<div class="input-group">
+									<input
+										name="stock"
+										id="stock"
+										class="form-control"
+										type="number"
+										placeholder="10"
+										value="<%= ((locals.previousData !== undefined && previousData.stock !== undefined) ? previousData.stock.toString().trim() : '') %>"
+									/>
+								</div>
+							</div>
+							<div class="mb-3">
+								<label for="price" class="form-label">Price: *</label>
+								<div class="input-group">
+									<span class="input-group-text">$</span>
+									<input
+										name="price"
+										id="price"
+										class="form-control"
+										type="number"
+										placeholder="100"
+										value="<%= ((locals.previousData !== undefined && previousData.price !== undefined) ? previousData.price.toString().trim() : '') %>"
+									/>
+								</div>
+							</div>
+							<div class="mb-3">
+								<label for="image" class="form-label">Image</label>
+								<input
+									name="image"
+									id="image"
+									class="form-control"
+									type="text"
+									placeholder="http://example.com/image.png"
+									value="<%= ((locals.previousData !== undefined && previousData.image !== undefined) ? previousData.image.trim() : '') %>"
+								/>
+							</div>
+
+							<button type="submit" class="btn btn-success">
+							  <% if (locals.previousData !== undefined && previousData._id !== undefined) { %>
+								Update Product
+								<% } else { %>
+								Add Product
+							  <% } %>
+							</button>
+							<% if (locals.previousData !== undefined && previousData._id !== undefined && locals.isAdmin) { %>
+								<a href="/products/<%= previousData._id %>/delete" class="btn btn-danger">Delete Product</a>
+							<% } %>
+						</form>
+					</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

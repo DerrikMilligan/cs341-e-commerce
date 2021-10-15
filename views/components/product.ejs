@@ -1,12 +1,13 @@
-<div class="card bg-light p-2">
-	<!-- <div class="card-header"><%= name %></div> -->
-	<img class="m-2" src="<%= image || '' %>">
+<div class="card bg-light">
+	<div class="card-header fs-4"><%= name %> - $<%= price %> (x<%= stock %>)</div>
+	<img class="m-2 mx-4" src="<%= image || '' %>">
 	<div class="card-body">
-		<h5 class="card-title"><%= name %> - $<%= price %></h5>
-		<p class="card-text"><%= description %></p>
-		<div class="float-end">
+		<div class="d-flex justify-content-end gap-2">
 			<a href="/products/<%= _id %>" class="btn btn-success">More Info</a>
-			<a href="/cart/add/<%= _id %>" class="btn btn-primary">Add to Cart</a>
+			<form action="/cart/add/<%= _id %>" method="POST">
+				<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+				<button class="btn btn-primary">Add to Cart</button>
+			</form>
 		</div>
 	</div>
 </div>

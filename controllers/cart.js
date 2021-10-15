@@ -14,7 +14,7 @@ export default {
 		res.render(path.join(__dirname, '../views/pages/cart.ejs'), { cart });
 	},
 
-	addItem: async (req, res, _) => {
+	addItem: async (req, res) => {
 		const product = await ProductModel.getProduct(req.params.uuid);
 
 		// If we don't find the product redirect to the products
@@ -29,7 +29,7 @@ export default {
 		res.render(path.join(__dirname, '../views/pages/cart.ejs'), { cart });
 	},
 
-	subItem: async (req, res, next) => {
+	subItem: async (req, res) => {
 		const product = await ProductModel.getProduct(req.params.uuid);
 
 		// If we don't find the product redirect to the products
@@ -43,7 +43,7 @@ export default {
 		res.render(path.join(__dirname, '../views/pages/cart.ejs'), { cart });
 	},
 
-	removeItem: async (req, res, next) => {
+	removeItem: async (req, res) => {
 		const product = await ProductModel.getProduct(req.params.uuid);
 
 		// If we don't find the product redirect to the products

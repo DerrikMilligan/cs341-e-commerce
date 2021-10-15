@@ -9,13 +9,22 @@
 				</div>
 				<div class="p-4">
 					<form action="/users/register" method="POST">
+						<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+						<div class="form-group mb-2">
+							<label for="email">Email:</label>
+							<input type="email" class="form-control" id="email" name="email">
+						</div>
 						<div class="form-group mb-2">
 							<label for="username">Username:</label>
 							<input type="text" class="form-control" id="username" name="username">
 						</div>
 						<div class="form-group mb-2">
-							<label for="password">Password</label>
+							<label for="password">Password:</label>
 							<input type="password" class="form-control" id="password" name="password">
+						</div>
+						<div class="form-group mb-2">
+							<label for="password1">Repeat Password:</label>
+							<input type="password" class="form-control" id="password1" name="password1">
 						</div>
 						<button type="submit" class="btn btn-success">Register</button>
 					</form>

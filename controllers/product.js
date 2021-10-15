@@ -43,7 +43,7 @@ export default {
       previousData: postProduct,
     };
 
-    let newProduct = false;
+    let newProduct = null;
 
     // If we don't have an ID then we're not updating and we should validate and create a new product
     if (postProduct._id === '') {
@@ -57,14 +57,14 @@ export default {
         response.message = 'A product description is required!';
       }
 
-      if (response.success && (!'extended_description' in postProduct || postProduct.extended_description.trim().length <= 0)) {
-        response.success = false;
-        response.message = 'An extended product description is required!';
-      }
-
       if (response.success && (!'price' in postProduct || postProduct.price.trim().length <= 0)) {
         response.success = false;
         response.message = 'A product price is required!';
+      }
+
+      if (response.success && (!'stock' in postProduct || postProduct.stock.trim().length <= 0)) {
+        response.success = false;
+        response.message = 'A product stock is required!';
       }
 
       const product = {
@@ -72,6 +72,7 @@ export default {
         description: postProduct.description,
         extended_description: postProduct.extended_description,
         price: parseFloat(postProduct.price.trim()),
+        stock: parseFloat(postProduct.stock.trim()),
         image: '',
       };
 
@@ -87,13 +88,17 @@ export default {
       response.message = "Product successfully updated!";
     }
 
-    if (response.success && !newProduct) {
+    if (response.success && newProduct === null) {
       response.success = false;
       response.message = 'Failed to add the product!';
       response.previousData = newProduct;
     }
 
-    res.render(path.join(__dirname, '../views/pages/add_product.ejs'), response);
+    if (response.success) {
+      return res.redirect(`/products/${newProduct._id}`);
+    } else {
+      res.render(path.join(__dirname, '../views/pages/add_product.ejs'), response);
+    }
   },
 };
 

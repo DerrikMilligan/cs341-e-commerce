@@ -1,13 +1,15 @@
 import express from 'express';
 
 import { CartController } from '../controllers/index.js';
-import { checkSignIn } from './users.js';
+import { isSignedInMiddleware } from '../util/index.js';
 
 const router = express.Router();
 
-router.get('/', checkSignIn, CartController.getCart);
-router.get('/add/:uuid', checkSignIn, CartController.addItem);
-router.get('/sub/:uuid', checkSignIn, CartController.subItem);
-router.get('/remove/:uuid', checkSignIn, CartController.removeItem);
+// All cart operations require a signed in user
+router.get('/', isSignedInMiddleware, CartController.getCart);
+router.post('/add/:uuid', isSignedInMiddleware, CartController.addItem);
+router.post('/sub/:uuid', isSignedInMiddleware, CartController.subItem);
+router.post('/remove/:uuid', isSignedInMiddleware, CartController.removeItem);
 
 export default router;
+

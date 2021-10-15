@@ -7,7 +7,7 @@ export const cartItemSchema = new mongoose.Schema({
 
 export const cartSchema = new mongoose.Schema({
 	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-	items: [ cartItemSchema ],
+	items: [cartItemSchema],
 });
 
 export const Cart = mongoose.model('Cart', cartSchema);
@@ -15,6 +15,10 @@ export const Cart = mongoose.model('Cart', cartSchema);
 export default {
 	// Get the cart for a user, populate the items
 	getUserCart: async (user) => {
+		if (!mongoose.Types.ObjectId.isValid(user._id)) {
+			return null;
+		}
+
 		let cart = await Cart.findOne({ user: user._id }).populate('items.product').exec();
 
 		if (cart === null) {

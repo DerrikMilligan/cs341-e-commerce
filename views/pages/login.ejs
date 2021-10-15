@@ -9,6 +9,7 @@
 				</div>
 				<div class="p-4">
 					<form action="/users/login" method="POST">
+						<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 						<div class="form-group mb-2">
 							<label for="username">Username:</label>
 							<input type="text" class="form-control" id="username" name="username">
@@ -18,6 +19,7 @@
 							<input type="password" class="form-control" id="password" name="password">
 						</div>
 						<button type="submit" class="btn btn-success">Login</button>
+						<a href="/users/forgotPassword" class="btn btn-primary">Forgot Password?</a>
 					</form>
 				</div>
 			</div>
