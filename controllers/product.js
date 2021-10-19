@@ -7,35 +7,41 @@ import { getDirname } from '../util/index.js';
 const __dirname = getDirname();
 
 export default {
-  getShopPage: async (_, res, __) => {
+  getShopPage: async (_, res) => {
     const products = await ProductModel.getAllProducts();
     console.log(products);
     res.render(path.join(__dirname, '../views/pages/products.ejs'), { products: products });
   },
 
-  getProductDetails: async (req, res, _) => {
+  getProductDetails: async (req, res) => {
     const product = await ProductModel.getProduct(req.params.uuid);
     res.render(path.join(__dirname, '../views/pages/product_details.ejs'), { product: product });
   },
 
-  getAddProduct: (_, res, __) => {
+  getAddProduct: (_, res) => {
     res.render(path.join(__dirname, '../views/pages/add_product.ejs'));
   },
 
-  editProductDetails: async (req, res, _) => {
+  editProductDetails: async (req, res) => {
     const product = await ProductModel.getProduct(req.params.uuid);
 
     res.render(path.join(__dirname, '../views/pages/add_product.ejs'), { previousData: product });
   },
 
-  deleteProduct: async (req, res, _) => {
+  deleteProduct: async (req, res) => {
     await ProductModel.deleteProduct(req.params.uuid);
 
     res.redirect('/products');
   },
 
-  postAddProduct: async (req, res, _) => {
+  postAddProduct: async (req, res) => {
     const postProduct = req.body;
+
+    const user = (req.session !== undefined && req.session.user !== undefined) ? req.session.user : null;
+
+    if (user === null) {
+      res.redirect('/login');
+    }
 
     const response = {
       success: true,
@@ -80,7 +86,7 @@ export default {
         product.image = postProduct.image;
       }
 
-      newProduct = await ProductModel.addProduct(product);
+      newProduct = await ProductModel.addProduct(user, product);
 
     } else {
       newProduct = await ProductModel.updateProduct(postProduct._id, postProduct);

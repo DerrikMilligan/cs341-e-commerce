@@ -40,8 +40,8 @@ await mongoose.connect(MONGODB_URL);
 console.log(`Mongodb initialized...`);
 
 express()
-  .use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
+  .use(express.static(path.join(__dirname, '../public')))
+  .set('views', path.join(__dirname, '../views'))
   .set('view engine', 'ejs')
 
   // Parse the body of POST request without bodyParser because it's depricated
@@ -95,12 +95,24 @@ express()
   // Redirect to the products page by default
   .get('/', (_, res, __) => res.redirect('/products'))
 
-  // // CSRF token error handling
-  // .use((err, _, res, next) => {
-  //   if (err.code !== 'EBADCSRFTOKEN') { return next(err); }
-  //   res.status(403);
-  //   res.send('You were being naughty and don\'t have a valid CSRF token...');
-  // })
+  // CSRF token error handling
+  .use((err, _, res, next) => {
+    if (err.code !== 'EBADCSRFTOKEN') { return next(err); }
+    res.status(500);
+    res.render('500.ejs', { error: 'You were being naughty and don\'t have a valid CSRF token...' });
+  })
+
+  // Handle 404
+  .use(function(_, res) {
+    res.status(400);
+    res.render('404.ejs');
+  })
+
+  // Handle 500
+  .use(function(error, _, res, __) {
+    res.status(500);
+    res.render('500.ejs', { error });
+  })
 
   // Finally listen on the port
   .listen(PORT, () => console.log(`Listening on ${PORT}`));

@@ -213,9 +213,18 @@ export default {
 		let user = await UserModel.lookupUser(data.username.trim());
 
 		if (user !== null) {
-			return res.render(path.join(__dirname, '../views/pages/login.ejs'), {
+			return res.render(path.join(__dirname, '../views/pages/register.ejs'), {
 				success: false,
 				message: 'That username is already taken!',
+			});
+		}
+
+		user = await UserModel.lookupUserByEmail(data.email.trim());
+
+		if (user !== null) {
+			return res.render(path.join(__dirname, '../views/pages/register.ejs'), {
+				success: false,
+				message: 'That email is already in use!',
 			});
 		}
 

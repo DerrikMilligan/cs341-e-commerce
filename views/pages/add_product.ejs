@@ -14,7 +14,7 @@
 				<div class="card-body">
 					<h5 class="card-title">Product Information</h5>
 					<p class="card-text">
-						<form method="POST" action="/products/addProduct">
+						<form method="POST" action="/products/addProduct" style="display: inline;">
 							<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 							<input type="hidden" name="_id" value="<%= ((locals.previousData !== undefined && previousData._id !== undefined) ? previousData._id : '') %>" />
 							<div class="mb-3">
@@ -85,10 +85,13 @@
 								Add Product
 							  <% } %>
 							</button>
-							<% if (locals.previousData !== undefined && previousData._id !== undefined && locals.isAdmin) { %>
-								<a href="/products/<%= previousData._id %>/delete" class="btn btn-danger">Delete Product</a>
-							<% } %>
 						</form>
+						<% if (locals.previousData !== undefined && previousData._id !== undefined && locals.isAdmin) { %>
+							<form action="/products/<%= previousData._id %>/delete" method="POST" style="display: inline-block;">
+								<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+								<button class="btn btn-danger">Delete Product</button>
+							</form>
+						<% } %>
 					</p>
 				</div>
 			</div>

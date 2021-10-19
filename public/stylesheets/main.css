@@ -1,12 +1,12 @@
 body {
-  height          : 100vh;
-  width           : 100vw;
-  background-color: #EEEEEE;
+  height: 100vh;
+  width : 100vw;
 }
 
-.container.products .card img {
-  max-height: 300px;
+.product.card img {
+  max-height: 200px;
   -o-object-fit: contain;
   object-fit: contain;
   overflow: hidden;
 }
+

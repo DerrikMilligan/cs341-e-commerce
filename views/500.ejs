@@ -1,0 +1,16 @@
+<%- include('./partials/header.ejs') %>
+
+<div class="container">
+	<div class="row">
+		<h1>500: Internal Server Error!</h1>
+    <% if (locals.isAdmin) { %>
+		<pre><%= error %></pre>
+    <% } %>
+	</div>
+  <div>
+    <a href="/products" class="btn btn-success">Back to Products!</a>
+  </div>
+</div>
+
+<%- include('./partials/footer.ejs') %>
+

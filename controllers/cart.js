@@ -24,6 +24,17 @@ export default {
 
 		const cart = await CartModel.getUserCart(req.session.user);
 
+		const cartItem = cart.items.find((item) => item.product._id.equals(product._id));
+
+		// If we don't find the product redirect to the products
+		if (cartItem && product.stock < cartItem.quantity + 1) {
+			return res.render(path.join(__dirname, '../views/pages/cart.ejs'), {
+				cart,
+				success: false,
+				message: 'There\'s no remaining stock for that product',
+			});
+		}
+
 		await CartModel.addProductToCart(cart, product);
 
 		res.render(path.join(__dirname, '../views/pages/cart.ejs'), { cart });

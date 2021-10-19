@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 export const productSchema = new mongoose.Schema({
 	name: String,
+	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 	stock: Number,
 	image: String,
 	price: Number,
@@ -22,6 +23,23 @@ export default {
 	// Return all the products we currently have
 	getAllProducts: async () => {
 		return await Product.find({});
+	},
+
+	// Return all products for a given user
+	getUserProducts: async (user) => {
+		if (user === null || user === undefined) {
+			return [];
+		}
+
+		if (!mongoose.Types.ObjectId.isValid(user.id)) {
+			return null;
+		}
+
+		const product = await Product.find({ user: user.id });
+
+		console.log(`[models][products][getProduct] Looked up product for user.id: ${user.id}`);
+
+		return product;
 	},
 
 	// Return a product with a given id
@@ -49,14 +67,15 @@ export default {
 	},
 
 	// Add a new product
-	addProduct: ({ name, image, price, stock, description }) => {
+	addProduct: (user, { name, image, price, stock, description }) => {
 		// Generate a product with the passed data or out defaults
 		const newProduct = new Product({
-			name: name || productDefaults.name,
-			image: image || productDefaults.image,
-			price: price || productDefaults.price,
-			stock: stock || productDefaults.stock,
+			name:        name        || productDefaults.name,
+			image:       image       || productDefaults.image,
+			price:       price       || productDefaults.price,
+			stock:       stock       || productDefaults.stock,
 			description: description || productDefaults.description,
+			user:        user        || null,
 		});
 
 		newProduct.save();
