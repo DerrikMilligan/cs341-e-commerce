@@ -1,0 +1,30 @@
+<tr>
+  <td style="width: 30px">
+    <% if (!locals.past_order) { %>
+      <form action="/cart/remove/<%= cartItem.product._id %>" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <button class="btn btn-danger">X</button>
+      </form>
+    <% } %>
+  </td>
+  <td class="align-middle">
+    <a href="/products/<%= cartItem.product._id %>"><%= cartItem.product.name %></a>
+  </td>
+  <td class="align-middle">$<%= cartItem.product.price %></td>
+  <td class="d-flex flex-row gap-1 border-0">
+    <% if (!locals.past_order) { %>
+      <form action="/cart/sub/<%= cartItem.product._id %>" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <button class="btn btn-primary">-</button>
+      </form>
+    <% } %>
+    <input class="form-control" style="width: 50px; text-align: center;" type="text" readonly value="<%= cartItem.quantity %>" <%= locals.past_order ? 'disabled' : '' %>/>
+    <% if (!locals.past_order) { %>
+      <form action="/cart/add/<%= cartItem.product._id %>" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <button class="btn btn-primary">+</button>
+      </form>
+    <% } %>
+  </td>
+  <td class="align-middle">$<%= cartItem.product.price * cartItem.quantity %></td>
+</tr>

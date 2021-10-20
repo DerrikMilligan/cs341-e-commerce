@@ -14,6 +14,34 @@ export default {
 		res.render(path.join(__dirname, '../views/pages/cart.ejs'), { cart });
 	},
 
+	getOrders: async (req, res) => {
+		const orders = await CartModel.getOrders(req.session.user);
+
+		console.log('Current orders: ', orders);
+
+		res.render(path.join(__dirname, '../views/pages/orders.ejs'), { orders });
+	},
+
+	getOrderHistory: async (req, res) => {
+		const cart = await CartModel.getCart(req.params.uuid);
+
+		res.render(path.join(__dirname, '../views/pages/cart.ejs'), { cart, past_order: true });
+	},
+
+	postSubmit: async (req, res) => {
+		const cart = await CartModel.getUserCart(req.session.user);
+
+		if (await CartModel.placeOrder(cart) === true) {
+			return res.redirect('/cart/orders');
+		}
+
+		res.render(path.join(__dirname, '../views/pages/cart.ejs'), {
+			cart,
+			success: false,
+			message: 'Failed to submit your order. Try again later.',
+		});
+	},
+
 	addItem: async (req, res) => {
 		const product = await ProductModel.getProduct(req.params.uuid);
 
