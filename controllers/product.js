@@ -6,11 +6,33 @@ import { getDirname } from '../util/index.js';
 
 const __dirname = getDirname();
 
+// This is a small number to represent pagination
+const productsPerPage = 6;
+
 export default {
-  getShopPage: async (_, res) => {
-    const products = await ProductModel.getAllProducts();
-    console.log(products);
-    res.render(path.join(__dirname, '../views/pages/products.ejs'), { products: products });
+  getShopPage: async (req, res) => {
+    let page = 0;
+    if (req.params !== undefined && req.params.page !== undefined) {
+      page = parseFloat(req.params.page) - 1;
+    }
+    // Clamp the page at 0 as a minimum since we're offsetting the pages
+    page = Math.max(page, 0);
+
+    const currentOffset = page * productsPerPage;
+
+    const products = await ProductModel.getAllProducts(productsPerPage, currentOffset);
+    const numProducts = await ProductModel.getProductcount();
+    const lastPage = Math.floor(numProducts / productsPerPage) + 1;
+
+    console.log(numProducts);
+
+    res.render(path.join(__dirname, '../views/pages/products.ejs'), {
+      page,
+      products,
+      lastPage,
+      nextPage:     ((lastPage - 1) > page),
+      previousPage: (currentOffset > 0),
+    });
   },
 
   getProductDetails: async (req, res) => {

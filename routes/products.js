@@ -13,6 +13,7 @@ router.post('/:uuid/delete', isAdminMiddleware, ProductController.deleteProduct)
 
 // This main product page and viewing products will be allowed for viewing without being logged in
 router.get('/', ProductController.getShopPage);
+router.get('/page/:page', ProductController.getShopPage);
 router.get('/:uuid', ProductController.getProductDetails);
 
 export default router;

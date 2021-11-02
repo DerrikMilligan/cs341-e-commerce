@@ -21,8 +21,12 @@ const productDefaults = {
 
 export default {
 	// Return all the products we currently have
-	getAllProducts: async () => {
-		return await Product.find({});
+	getAllProducts: async (limit = 10, skip = 0) => {
+		return await Product.find({}).skip(skip).limit(limit);
+	},
+
+	getProductcount: async () => {
+		return await Product.count();
 	},
 
 	// Return all products for a given user
